@@ -177,9 +177,10 @@ func register(ctx server.Context) {
 	userTable.Status = app.Enable
 	userTable.Phone = req.Mobile
 	userTable.Email = req.Email
+	userTable.Username = req.Name
 	p := passwd.Generate(req.Password, userTable)
 	userTable.Password = p
-	_, err = app.GetOrm().Context.Insert(userTable)
+	_, err = app.GetOrm().Context.Insert(&userTable)
 	if err != nil {
 		log.Info("create user fail: %s", req.Mobile)
 		log.Info(err)

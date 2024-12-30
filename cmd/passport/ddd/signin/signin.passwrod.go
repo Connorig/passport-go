@@ -63,7 +63,7 @@ func passwdSignIn(ctx server.Context) {
 		ctx.Json(resp)
 		return
 	}
-	tokenContent, err := getToken(info.Username, req.LoginType)
+	tokenContent, err := getToken(info.UserCode, req.LoginType)
 	if err != nil {
 		resp.Code = tool.RespCodeError
 		resp.Message = "token获取失败"
