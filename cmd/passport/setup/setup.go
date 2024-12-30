@@ -13,14 +13,14 @@ import (
 
 func Setup(_ context.Context) (err error) {
 	initStoreManager()
-	err = initSdkClient()
-	if err != nil {
-		return
-	}
-	err = initNotifySdk()
-	if err != nil {
-		return
-	}
+	//err = initSdkClient()
+	//if err != nil {
+	//	return
+	//}
+	//err = initNotifySdk()
+	//if err != nil {
+	//	return
+	//}
 	return
 }
 

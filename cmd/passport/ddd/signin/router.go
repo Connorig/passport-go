@@ -8,4 +8,5 @@ func Route(root server.Router) {
 	root.Post("/", passwdSignIn) // 默认
 	root.Post("/wx", wechatSignIn)
 	root.Post("/sms", smsSignIn)
+	root.Post("/email", emailSignIn)
 }

@@ -21,10 +21,10 @@ type LoginReq struct {
 }
 
 type CodeLoginReq struct {
-	UserName      string `json:"userName,omitempty"`
-	Code          string `json:"code,omitempty"`
-	CodeLoginType string `json:"codeLoginType,omitempty"` //登录方式-sms/mail
-	LoginType     string `json:"loginType,omitempty"`     //登录方式-pc/app/wx
+	UserName string `json:"userName,omitempty"`
+	Code     string `json:"code,omitempty"`
+	//CodeLoginType string `json:"codeLoginType,omitempty"` //登录方式-sms/mail
+	LoginType string `json:"loginType,omitempty"` //登录方式-pc/app/wx
 }
 
 type LoginResp struct {
