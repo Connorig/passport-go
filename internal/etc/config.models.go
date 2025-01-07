@@ -3,10 +3,10 @@ package etc
 type Configuration struct {
 	Db     db     `toml:"db"`
 	Web    web    `toml:"web"`
-	Mq     mq     `toml:"mq"`
 	Redis  redis  `toml:"redis"`
 	Token  token  `toml:"token"`
 	Notify notify `toml:"notify"`
+	Ttl    ttl    `toml:"ttl"`
 }
 
 type web struct {
@@ -28,9 +28,7 @@ type db struct {
 	Database string
 	Ssl      string
 }
-type mq struct {
-	Conn string `toml:"conn"`
-}
+
 type token struct {
 	Enable bool
 	Issuer string
@@ -41,4 +39,8 @@ type notify struct {
 	Host   string
 	AppKey string
 	Secret string
+}
+type ttl struct {
+	Time     int64
+	TimeType string
 }

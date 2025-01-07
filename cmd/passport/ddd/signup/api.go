@@ -12,7 +12,7 @@ import (
 )
 
 type RegisterReq struct {
-	Mobile   string `json:"mobile,omitempty"`
+	Phone    string `json:"phone,omitempty"`
 	Email    string `json:"email,omitempty"`
 	Password string `json:"password,omitempty"`
 	Name     string `json:"name,omitempty"`
@@ -42,6 +42,7 @@ func phoneRegister(ctx server.Context) {
 		Filter("Phone", req.Mobile).Count()
 	if n > 0 {
 		log.Info("phone_number exist: %s", req.Mobile)
+		resp.Message = "手机号已注册"
 		resp.Code = tool.RespCodeError
 		ctx.Json(resp)
 		return
@@ -162,7 +163,7 @@ func register(ctx server.Context) {
 	}
 	// 检查重复
 	// email 重复
-	cond := orm.NewCondition().Or("Email", req.Email).Or("Phone", req.Mobile)
+	cond := orm.NewCondition().Or("Email", req.Email).Or("Phone", req.Phone)
 	n, err := app.GetOrm().Context.QueryTable(new(model.UserInfo)).
 		SetCond(cond).Count()
 	if n > 0 {
@@ -175,14 +176,22 @@ func register(ctx server.Context) {
 	var userTable = model.UserInfo{}
 	userTable.UserCode = userCode
 	userTable.Status = app.Enable
-	userTable.Phone = req.Mobile
+	userTable.Phone = req.Phone
 	userTable.Email = req.Email
 	userTable.Username = req.Name
-	p := passwd.Generate(req.Password, userTable)
-	userTable.Password = p
 	_, err = app.GetOrm().Context.Insert(&userTable)
 	if err != nil {
-		log.Info("create user fail: %s", req.Mobile)
+		log.Info("create user fail: %s", req.Phone)
+		log.Info(err)
+		resp.Code = tool.RespCodeError
+		ctx.Json(resp)
+		return
+	}
+	p := passwd.Generate(req.Password, userTable)
+	userTable.Password = p
+	_, err = app.GetOrm().Context.Update(&userTable)
+	if err != nil {
+		log.Info("password fail: %s", req.Phone)
 		log.Info(err)
 		resp.Code = tool.RespCodeError
 		ctx.Json(resp)
@@ -191,7 +200,7 @@ func register(ctx server.Context) {
 	go func() {
 		// 创建用户
 		// 创建profile
-		e := svsAddUser(userCode, req.Email, req.Mobile)
+		e := svsAddUser(userCode, req.Email, req.Phone)
 		if e != nil {
 			log.Info(e)
 		}

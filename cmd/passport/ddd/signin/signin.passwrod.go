@@ -15,7 +15,7 @@ import (
 
 type LoginReq struct {
 	Password  string `json:"password,omitempty"`
-	UserName  string `json:"userName,omitempty"`
+	Username  string `json:"username,omitempty"`
 	Code      string `json:"code,omitempty"`
 	LoginType string `json:"loginType,omitempty"` //登录方式-pc/app/wx
 }
@@ -47,7 +47,7 @@ func passwdSignIn(ctx server.Context) {
 	}
 	var info model.UserInfo
 	cond := orm.NewCondition()
-	cond = cond.And("Name", req.UserName).And("PassWord", req.Password)
+	cond = cond.And("username", req.Username)
 	err = app.GetOrm().Context.QueryTable(new(model.UserInfo)).SetCond(cond).One(&info)
 	if err != nil {
 		resp.Code = tool.RespCodeError

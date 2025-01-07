@@ -1,14 +1,16 @@
 module github.com/lishimeng/passport-go
 
-go 1.23
+go 1.23.1
 
 require (
 	github.com/beego/beego/v2 v2.3.1
 	github.com/lib/pq v1.10.9
-	github.com/lishimeng/app-starter v1.19.6
+	github.com/lishimeng/app-starter v1.20.1
+	github.com/lishimeng/cms v1.0.0
 	github.com/lishimeng/go-log v1.0.0
 	github.com/lishimeng/go-sdk v1.1.0
 	github.com/lishimeng/owl-messager v0.11.3
+	github.com/lishimeng/passport v0.2.19
 	github.com/lishimeng/x v1.2.3
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 )
