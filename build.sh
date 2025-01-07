@@ -56,11 +56,13 @@ build_all(){
   common
   checkout_tag
   build_image 'passport-go' 'cmd/passport'
+  build_image 'passport-profile' 'cmd/profile'
 }
 
 push_all(){
   common
   push_image 'passport-go'
+  push_image 'passport-profile'
 }
 
 case  $1 in

@@ -12,7 +12,12 @@ func main() {
 		buildscript.Application{
 			Name:    "passport-go",
 			AppPath: "cmd/passport",
-			HasUI:   false,
+			HasUI:   true,
+		},
+		buildscript.Application{
+			Name:    "passport-profile",
+			AppPath: "cmd/profile",
+			HasUI:   true,
 		},
 	)
 	if err != nil {
