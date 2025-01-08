@@ -29,7 +29,7 @@ const viteConfig: UserConfig = {
 		proxy: {
 
 			'/api': {
-				target: 'http://localhost:82',
+				target: 'http://localhost:80',
 				ws: true,
 				changeOrigin: true,
 				rewrite: (path) => path.replace(/^\/api/, '/api'),
