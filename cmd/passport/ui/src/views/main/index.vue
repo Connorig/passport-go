@@ -72,8 +72,9 @@ const state = reactive({
 onMounted(() => {
   getUrl()
 })
-function getOpenUrl(path: any,token:any) {
+function getOpenUrl(url: any,token:any) {
   var openUrl = ''
+  var path=decodeURIComponent(url)
   if (path) {
     if (path.indexOf("?") < 0) {
       openUrl = path + "?token=" + token
@@ -89,7 +90,7 @@ function getUrl(){
     ElMessage.error("路径错误")
   }else{
     state.originUrl=encodeURIComponent(route.query.url)
-    console.log(state.originUrl)
+    console.log('originUrl',state.originUrl)
   }
 }
 function signInPassword(){
