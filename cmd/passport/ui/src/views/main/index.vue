@@ -72,11 +72,23 @@ const state = reactive({
 onMounted(() => {
   getUrl()
 })
+function getOpenUrl(path: any,token:any) {
+  var openUrl = ''
+  if (path) {
+    if (path.indexOf("?") < 0) {
+      openUrl = path + "?token=" + token
+    } else {
+      openUrl = path + "&token=" + token
+    }
+  }
+  return openUrl;
+}
 function getUrl(){
   if(route.query.url===""){
+    state.originUrl="https://profile.thingple.io/"//默认返回地址
     ElMessage.error("路径错误")
   }else{
-    state.originUrl=route.query.url
+    state.originUrl=encodeURIComponent(route.query.url)
     console.log(state.originUrl)
   }
 }
@@ -90,6 +102,9 @@ function signInPassword(){
     console.log(res);
     if (res.code === 200) {
       ElMessage.success('登录成功');
+      var url=getOpenUrl(state.originUrl,res.token)
+      //原路径返回
+      window.location.replace(url)
     } else {
       ElMessage.error('登录失败');
     }
@@ -117,9 +132,9 @@ function signInPhone(){
     console.log(res);
     if (res.code === 200) {
       ElMessage.success('登录成功');
-      Local.set('token',res.token)
+      var url=getOpenUrl(state.originUrl,res.token)
       //原路径返回
-      window.location.replace(state.originUrl)
+      window.location.replace(url)
     } else {
       ElMessage.error('登录失败');
     }
