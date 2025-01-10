@@ -67,7 +67,8 @@ const state = reactive({
     phone:"",
     verifyCode:"",
   },
-  originUrl:""
+  originUrl:"",
+  token:"",
 })
 onMounted(() => {
   getUrl()
@@ -92,6 +93,11 @@ function getUrl(){
     state.originUrl=encodeURIComponent(route.query.url)
     console.log('originUrl',state.originUrl)
   }
+  //获取缓存token
+  state.token=Local.get('token')
+  if(state.token!==null){
+    login()
+  }
 }
 function signInPassword(){
   // console.log(123)
@@ -103,9 +109,8 @@ function signInPassword(){
     console.log(res);
     if (res.code === 200) {
       ElMessage.success('登录成功');
-      var url=getOpenUrl(state.originUrl,res.token)
-      //原路径返回
-      window.location.replace(url)
+      state.token=res.token
+      login()
     } else {
       ElMessage.error('登录失败');
     }
@@ -133,9 +138,8 @@ function signInPhone(){
     console.log(res);
     if (res.code === 200) {
       ElMessage.success('登录成功');
-      var url=getOpenUrl(state.originUrl,res.token)
-      //原路径返回
-      window.location.replace(url)
+      state.token=res.token
+      login()
     } else {
       ElMessage.error('登录失败');
     }
@@ -167,6 +171,13 @@ function register(){
       ElMessage.error('注册失败');
     }
   });
+}
+function login(){
+  var url=getOpenUrl(state.originUrl,state.token)
+  //pp保存token
+  Local.set("token",state.token)
+  //原路径返回
+  window.location.replace(url)
 }
 </script>
 
