@@ -10,7 +10,6 @@ require (
 	github.com/lishimeng/go-log v1.0.0
 	github.com/lishimeng/go-sdk v1.1.0
 	github.com/lishimeng/owl-messager v0.11.3
-	github.com/lishimeng/passport v0.2.19
 	github.com/lishimeng/x v1.2.3
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 )

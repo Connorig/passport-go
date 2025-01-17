@@ -86,9 +86,10 @@ function getOpenUrl(url: any,token:any) {
   return openUrl;
 }
 function getUrl(){
-  if(route.query.url===""){
-    state.originUrl="https://profile.thingple.io/"//默认返回地址
-    ElMessage.error("路径错误")
+  if(route.query.url===""||route.query.url===undefined){
+    state.originUrl="http://user.thingple.io/"//默认返回地址
+    Local.remove('token')
+    // ElMessage.error("路径错误")
   }else{
     state.originUrl=encodeURIComponent(route.query.url)
     console.log('originUrl',state.originUrl)

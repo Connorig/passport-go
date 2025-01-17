@@ -1,5 +1,5 @@
 #!/bin/bash
-Namespace="lishimeng"
+Namespace="harbor.thingplecloud.com/pp"
 
 # shellcheck disable=SC2046
 Version=$(git describe --tags $(git rev-list --tags --max-count=1))

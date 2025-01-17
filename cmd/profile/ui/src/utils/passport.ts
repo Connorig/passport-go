@@ -1,5 +1,5 @@
 import { Local } from '/@/utils/storage';
-const passportLogoutUrl = "https://passport.thingplecloud.com/logout"
+const passportLogoutUrl = "http://pp.thingple.io/logout"
 const passportLoginUrl = "http://pp.thingple.io"
 
 function genUrl(url: string, path: string) {
@@ -7,7 +7,7 @@ function genUrl(url: string, path: string) {
 }
 
 function getLogoutUrl(path: string) {
-  let passportLogoutUrl = Local.get('themeConfig') ? Local.get('themeConfig').passportLogoutUrl : ""
+  // let passportLogoutUrl = Local.get('themeConfig') ? Local.get('themeConfig').passportLogoutUrl : ""
   return genUrl(passportLogoutUrl, path)
 }
 

@@ -150,8 +150,6 @@ github.com/lishimeng/log4go v1.0.0 h1:oQMcyx/jby6jVCZ4ywnMP+tvZoRL4L3sKYktxTX0DF
 github.com/lishimeng/log4go v1.0.0/go.mod h1:7CZh60epG3cgLa4RpxzFRzYVbQzp7lXmBMlMho1cRbE=
 github.com/lishimeng/owl-messager v0.11.3 h1:xR/92fcjdhCkr7EFtkNN9KFynb2TG2kw/SkF31lEewI=
 github.com/lishimeng/owl-messager v0.11.3/go.mod h1:AGyXWez1vAUc2n3IRNM5bTZWPM8Xlbt06Wp0clNqIcI=
-github.com/lishimeng/passport v0.2.19 h1:l9THps9crtlFWDJNVskZhjhtq0aO8FrLLttAu4yFn3k=
-github.com/lishimeng/passport v0.2.19/go.mod h1:RQ6Dr6uQsDsM4fv6QWG7W+nHDulon7RndxDGjRDPF60=
 github.com/lishimeng/x v1.2.3 h1:U9fI6BlwEK2lczhF1ZAwoU4+ILvzuI2JxANSkHqJ1qk=
 github.com/lishimeng/x v1.2.3/go.mod h1:TEUpD4i3UAbZxUUzfTnhTAVtruv+EVa2SlVqaQBH6/Y=
 github.com/magiconair/properties v1.8.7 h1:IeQXZAiQcpL9mgcAe1Nu6cX9LLw6ExEHKjN0VQdvPDY=

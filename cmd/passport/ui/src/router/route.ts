@@ -63,6 +63,14 @@ export const staticRoutes: Array<RouteRecordRaw> = [
 		},
 	},
 	{
+		path: '/logout',
+		name: 'logout',
+		component: () => import('/@/views/main/logout.vue'),
+		meta: {
+			title: '登录',
+		},
+	},
+	{
 		path: '/404',
 		name: 'notFound',
 		component: () => import('/@/views/error/404.vue'),

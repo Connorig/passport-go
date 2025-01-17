@@ -7,7 +7,7 @@ import (
 
 func main() {
 	err := buildscript.Generate(buildscript.Project{
-		Namespace: "lishimeng",
+		Namespace: "harbor.thingplecloud.com/pp",
 	},
 		buildscript.Application{
 			Name:    "passport-go",
