@@ -47,7 +47,7 @@ export const useUserInfo = defineStore('userInfo', {
 						// 用户信息模拟数据
 						const userInfos = {
 							userName: res.item.name,
-							photo: res.item.avatar ? res.item.avatar : 'https://img2.baidu.com/it/u=2370931438,70387529&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
+							photo: res.item.photo ? res.item.photo : 'https://img2.baidu.com/it/u=2370931438,70387529&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
 							time: new Date().getTime(),
 							roles: defaultRoles,
 							authBtnList: defaultAuthBtnList,

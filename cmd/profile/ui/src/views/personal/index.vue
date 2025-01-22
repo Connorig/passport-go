@@ -6,7 +6,13 @@
 				<el-card shadow="hover" header="个人信息">
 					<div class="personal-user">
 						<div class="personal-user-left">
-							<el-upload class="h100 personal-user-left-upload" action="https://jsonplaceholder.typicode.com/posts/" multiple :limit="1">
+							<el-upload class="h100 personal-user-left-upload"
+                         action="https://jsonplaceholder.typicode.com/posts/"
+                         multiple
+                         :limit="1"
+                         :on-success="handleAvatarSuccess"
+                         :before-upload="beforeAvatarUpload"
+              >
 								<img :src="userInfos.photo" />
 							</el-upload>
 						</div>
@@ -67,9 +73,12 @@
 import { reactive, computed } from 'vue';
 import { formatAxis } from '/@/utils/formatTime';
 import { newsInfoList } from './mock';
-import {Session} from "/@/utils/storage";
+import {Local, Session} from "/@/utils/storage";
 import {storeToRefs} from "pinia";
 import {useUserInfo} from "/@/stores/userInfo";
+import {bindPhotoApi} from "/@/api/login";
+import {ElMessage, ElMessageBox} from "element-plus";
+import {logout} from "/@/utils/passport";
 const stores = useUserInfo();
 const { userInfos } = storeToRefs(stores);
 // 定义变量内容
@@ -89,6 +98,27 @@ const state = reactive<PersonalState>({
 const currentTime = computed(() => {
 	return formatAxis(new Date());
 });
+function beforeAvatarUpload(file){
+  const reader = new FileReader();
+  reader.readAsDataURL(file)
+  reader.onload = function () {
+    const base64String = reader.result; // 读取完成后的结果保存在result属性中
+    // console.log(base64String)
+    bindPhotoApi({
+      photo: base64String
+    }).then((res) => {
+      if (res && res.code == 200) {
+        ElMessage.success("修改成功")
+        Local.remove('userInfo')
+        window.location.reload()
+      } else {
+        ElMessage.error("修改失败! ")
+      }
+    }).catch((err) => {
+      console.log(err)
+    })
+  };
+}
 </script>
 
 <style scoped lang="scss">

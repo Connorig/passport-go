@@ -10,6 +10,7 @@ type UserInfo struct {
 	Password string `orm:"password"`
 	Email    string `orm:"email"`
 	Phone    string `orm:"phone"`
+	Photo    string `orm:"photo"`
 	app.TableChangeInfo
 	// 省略其他字段...
 }

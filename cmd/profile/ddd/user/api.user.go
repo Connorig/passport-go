@@ -20,6 +20,7 @@ type UserInfo struct {
 	Name   string `json:"name,omitempty"`
 	Email  string `json:"email,omitempty"`
 	Phone  string `json:"phone,omitempty"`
+	Photo  string `json:"photo,omitempty"`
 	Active int    `json:"active,omitempty"`
 	IsOrg  int    `json:"isOrg,omitempty"`
 	IsBind int    `json:"isBind,omitempty"`
@@ -45,6 +46,7 @@ func GetUserInfo(ctx server.Context) {
 	resp.Item.Name = userInfo.Username
 	resp.Item.Email = userInfo.Email
 	//resp.Item.Active = userInfo.Active
+	resp.Item.Photo = userInfo.Photo
 	resp.Item.Phone = userInfo.Phone
 	resp.Item.IsOrg = 0
 	resp.Item.IsBind = 0
@@ -207,6 +209,48 @@ func BindEmail(ctx server.Context) {
 	var cols []string
 	userOne.Email = req.Email
 	cols = append(cols, "Email")
+
+	_, err = UpdateUserInfo(userOne, cols...)
+	if err != nil {
+		resp.Code = tool.RespCodeError
+		resp.Message = "绑定失败"
+		ctx.Json(resp)
+		return
+	}
+	resp.Code = tool.RespCodeSuccess
+	ctx.Json(resp)
+}
+
+type BindPhotoReq struct {
+	Photo string `json:"photo,omitempty"`
+}
+
+func BindPhoto(ctx server.Context) {
+	var req BindPhotoReq
+	var resp app.Response
+	err := ctx.C.ReadJSON(&req)
+	if err != nil {
+		resp.Code = tool.RespCodeError
+		resp.Message = "json解析失败"
+		ctx.Json(resp)
+		return
+	}
+	ui := ctx.C.Values().Get(auth.UserInfoKey)
+	jwt, ok := ui.(token.JwtPayload)
+	if !ok {
+		return
+	}
+	log.Debug("userCode:%s", jwt.Uid)
+	userOne, err := GetUserInfoByCode(jwt.Uid)
+	if err != nil {
+		resp.Code = tool.RespCodeError
+		resp.Message = "用户不存在"
+		ctx.Json(resp)
+		return
+	}
+	var cols []string
+	userOne.Photo = req.Photo
+	cols = append(cols, "Photo")
 
 	_, err = UpdateUserInfo(userOne, cols...)
 	if err != nil {

@@ -67,7 +67,7 @@ export const staticRoutes: Array<RouteRecordRaw> = [
 		name: 'logout',
 		component: () => import('/@/views/main/logout.vue'),
 		meta: {
-			title: '登录',
+			title: '退出登录',
 		},
 	},
 	{
