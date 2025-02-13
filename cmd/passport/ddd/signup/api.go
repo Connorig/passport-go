@@ -18,8 +18,9 @@ type RegisterReq struct {
 	Name     string `json:"name,omitempty"`
 }
 type phoneRegisterReq struct {
-	Mobile string `json:"mobile,omitempty"`
-	Code   string `json:"code,omitempty"`
+	UserName string `json:"userName,omitempty"`
+	Mobile   string `json:"mobile,omitempty"`
+	Code     string `json:"code,omitempty"`
 }
 type emailRegisterReq struct {
 	Email string `json:"email,omitempty"`
@@ -36,9 +37,25 @@ func phoneRegister(ctx server.Context) {
 		ctx.Json(resp)
 		return
 	}
+	if req.UserName == "" || req.Mobile == "" {
+		resp.Code = tool.RespCodeError
+		resp.Message = "用户名/手机号不能为空"
+		ctx.Json(resp)
+		return
+	}
 	// 检查重复
-	// phone重复
+	//用户名重复
 	n, err := app.GetOrm().Context.QueryTable(new(model.UserInfo)).
+		Filter("Username", req.UserName).Count()
+	if n > 0 {
+		log.Info("username exist: %s", req.UserName)
+		resp.Message = "用户名已存在"
+		resp.Code = tool.RespCodeError
+		ctx.Json(resp)
+		return
+	}
+	// phone重复
+	n, err = app.GetOrm().Context.QueryTable(new(model.UserInfo)).
 		Filter("Phone", req.Mobile).Count()
 	if n > 0 {
 		log.Info("phone_number exist: %s", req.Mobile)
@@ -66,6 +83,7 @@ func phoneRegister(ctx server.Context) {
 	var userCode = util.UUIDString()
 	var userTable = new(model.UserInfo)
 	userTable.UserCode = userCode
+	userTable.Username = req.UserName
 	userTable.Status = app.Enable
 	userTable.Phone = req.Mobile
 	_, err = app.GetOrm().Context.Insert(userTable)

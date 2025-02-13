@@ -15,6 +15,18 @@
       <input v-model="state.formData.password" required="" placeholder="" type="password" class="input">
       <span>密码</span>
     </label>
+    <div class="flex" v-if="state.active===0">
+      <label v-if="state.active===0">
+        <input v-model="state.formData.identifyCode" required="" placeholder="" type="text" class="input">
+        <span>验证码</span>
+      </label>
+      <label>
+        <div class="code" @click="refreshCode">
+          <SIdentify :identifyCode="state.identifyCode"></SIdentify>
+        </div>
+      </label>
+    </div>
+
     <button v-if="state.active===0" class="submit" @click="signInPassword">登录</button>
 <!--    手机号-->
     <label v-if="state.active===1">
@@ -32,6 +44,10 @@
     </div>
     <button v-if="state.active===1" class="submit" @click="signInPhone">登录</button>
     <!--    手机号注册-->
+    <label v-if="state.active===2">
+      <input v-model="state.formData.username" required="" placeholder="" type="text" class="input">
+      <span>用户名</span>
+    </label>
     <label v-if="state.active===2">
       <input v-model="state.formData.phone" required="" placeholder="" type="text" class="input">
       <span>手机号</span>
@@ -58,6 +74,7 @@ import {signInSendCodeApi, signUpSendCodeApi} from "/@/api/send";
 import {signInPasswordApi, signInPhoneApi} from "/@/api/signin";
 import { useRoute } from 'vue-router';
 import {Local} from "/@/utils/storage";
+import SIdentify from "/@/components/Sidentify.vue";
 const route = useRoute();
 const state = reactive({
   active:0 ,
@@ -66,13 +83,35 @@ const state = reactive({
     password:"",
     phone:"",
     verifyCode:"",
+    identifyCode:"",
   },
   originUrl:"",
   token:"",
+  identifyCode:"",
+  identifyCodes:"1234567890abcdefjhijklinopqrsduvwxyz"
 })
 onMounted(() => {
   getUrl()
+  state.identifyCode=""
+  makeCode(state.identifyCodes, 4)
 })
+// 生成随机数
+function randomNum(min, max){
+  return Math.floor(Math.random() * (max - min) + min)
+}
+// 随机生成验证码字符串
+function makeCode(o, l){
+
+  for (let i = 0; i < l; i++) {
+    state.identifyCode+= o[randomNum(0, o.length)]
+  }
+  // console.log(state.identifyCode)
+}
+// 更新验证码
+function refreshCode () {
+  state.identifyCode = ''
+  makeCode(state.identifyCodes, 4)
+}
 function getOpenUrl(url: any,token:any) {
   var openUrl = ''
   var path=decodeURIComponent(url)
@@ -102,6 +141,11 @@ function getUrl(){
 }
 function signInPassword(){
   // console.log(123)
+  if(state.identifyCode!==state.formData.identifyCode){
+    //验证码错误
+    ElMessage.error('验证码错误');
+    return
+  }
   signInPasswordApi({
     username:state.formData.username,
     password:state.formData.password,
@@ -114,6 +158,7 @@ function signInPassword(){
       login()
     } else {
       ElMessage.error('登录失败');
+      refreshCode()
     }
   });
 }
@@ -162,12 +207,14 @@ function sendRegisterCode(){
 function register(){
   //注册
   signUpPhoneApi({
+    username:state.formData.username,
     mobile:state.formData.phone,
     code:state.formData.verifyCode,
   }).then((res) => {
     console.log(res);
     if (res.code === 200) {
       ElMessage.success('注册成功');
+      state.active=0
     } else {
       ElMessage.error('注册失败');
     }
