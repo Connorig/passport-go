@@ -88,7 +88,8 @@ const state = reactive({
   originUrl:"",
   token:"",
   identifyCode:"",
-  identifyCodes:"1234567890abcdefjhijklinopqrsduvwxyz"
+  // identifyCodes:"1234567890abcdefjhijklinopqrsduvwxyz"
+  identifyCodes:"1234567890"
 })
 onMounted(() => {
   getUrl()
@@ -112,7 +113,7 @@ function refreshCode () {
   state.identifyCode = ''
   makeCode(state.identifyCodes, 4)
 }
-function getOpenUrl(url: any,token:any) {
+  function getOpenUrl(url: any,token:any) {
   var openUrl = ''
   var path=decodeURIComponent(url)
   if (path) {
@@ -223,7 +224,7 @@ function register(){
 function login(){
   var url=getOpenUrl(state.originUrl,state.token)
   //pp保存token
-  Local.set("token",state.token)
+  // Local.set("token",state.token)
   //原路径返回
   window.location.replace(url)
 }
